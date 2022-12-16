@@ -4,7 +4,7 @@ var searchInput = $('.weather-search');
 var searchForm = $('#search-form');
 var searchBtn = $('.search-button');
 
-var London = 'london'
+var searchText = 'london'
 
 
 // searchBtn.submit(function (event){
@@ -20,14 +20,25 @@ var London = 'london'
     
 // }
 ////////////////////////////////////////////////////Current Weather
-$.get(`https://api.openweathermap.org/data/2.5/weather?q=${London}&appid=${APIkey}`)
+var current =$.get(`https://api.openweathermap.org/data/2.5/weather?q=${searchText}&appid=${APIkey}`)
 .then(function(data) {
-    console.log(`
-    temp: ${Math.round(data.main.temp)}
-    Wind Speed: ${data.wind.speed}
-    Humidity: ${data.main.humidity}%
-    `);
+    // console.log(`
+    // temp: ${Math.round(data.main.temp)}
+    // Wind Speed: ${data.wind.speed}
+    // Humidity: ${data.main.humidity}%
+    // `);
+    console.log(data.coord.lon, 'lon', data.coord.lat, 'lat')
+
+    $.get( `https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${APIkey}`)
+.then(function(FCData){
+    console.log(FCData, 'FCData')
+}
+)
 })
+/////////////////////////////////////////////////////5 Day Forecast
+
+
+
 
 
 // console.log(currentWeather)
