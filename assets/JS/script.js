@@ -4,37 +4,40 @@ var searchInput = $('.weather-search');
 var searchForm = $('#search-form');
 var searchBtn = $('.search-button');
 
-var searchText = 'london'
+// var searchText = 'london'
 
 
-// searchBtn.submit(function (event){
-//     event.preventDefault;
-//     console.log('click')
-// })
+searchBtn.click(function(event){
+    event.preventDefault();
+    console.log('click')
+    var searchText = searchInput.val().trim();
+    console.log(searchText)
+    if (!searchText){
+        alert('please type a city name');
+    } else {
 
-// var searchText = searchInput.val().trim();
-// console.log(searchText)
-// if (!searchText){
-//     alert('please type a city name');
-// } else {
-    
+        $.get(`https://api.openweathermap.org/data/2.5/weather?q=${searchText}&appid=${APIkey}`)
+        .then(function(data) {
+            // console.log(`
+            // temp: ${Math.round(data.main.temp)}
+            // Wind Speed: ${data.wind.speed}
+            // Humidity: ${data.main.humidity}%
+            // `);
+            console.log(data.coord.lon, 'lon', data.coord.lat, 'lat')
+        
+            $.get( `https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${APIkey}`)
+        .then(function(FCData){
+            console.log(FCData, 'FCData')
+        }
+        )
+        })
+
+    }
+        
+})
+
 // }
 ////////////////////////////////////////////////////Current Weather
-var current =$.get(`https://api.openweathermap.org/data/2.5/weather?q=${searchText}&appid=${APIkey}`)
-.then(function(data) {
-    // console.log(`
-    // temp: ${Math.round(data.main.temp)}
-    // Wind Speed: ${data.wind.speed}
-    // Humidity: ${data.main.humidity}%
-    // `);
-    console.log(data.coord.lon, 'lon', data.coord.lat, 'lat')
-
-    $.get( `https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${APIkey}`)
-.then(function(FCData){
-    console.log(FCData, 'FCData')
-}
-)
-})
 /////////////////////////////////////////////////////5 Day Forecast
 
 
