@@ -1,0 +1,18 @@
+:root{
+    --sky: #3fd9ff;
+    --dark: #00008b;
+
+}
+
+
+header{
+    background-image: linear-gradient(to right, var(--sky), var(--dark));
+}
+
+.input-group{
+    flex-direction: column;
+}
+
+.search-button {
+    background-color: var(--sky);
+}
