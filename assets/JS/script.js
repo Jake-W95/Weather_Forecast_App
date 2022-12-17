@@ -30,73 +30,23 @@ searchBtn.click(function (event) {
                 $.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${APIkey}&units=metric`)
                     .then(function (FCData) {
                         console.log(FCData.list[0], 'FCdata0')
-                        forecastSec.append(`
-                        <section class="row">
-                             <div class="card-body">
-                                <h5 class="date">${moment.unix(FCData.list[0].dt).format('Do MMM')}
-                <img class="icon" src= ${wIcon + FCData.list[0].weather[0].icon + '.png'}></img>
-                                
-                                </h5>
-                                <h5 class="time">${moment.unix(FCData.list[0].dt).format('hh:mm a')}</h5>
-                                <p class="temp">Temp: ${FCData.list[0].main.temp}°C</p>
-                                <p class="wind">Wind Speed: ${FCData.list[0].wind.speed} KPH</p>
-                                <p class="humidity">Humidity: ${FCData.list[0].main.humidity}% </p>
-                            </div>         
+                        for(var i = 0; i <= 40; i+= 2){
+                            forecastSec.append(`
+                            <section class="row">
+                                 <div class="card-body">
+                                    <h5 class="date">${moment.unix(FCData.list[i].dt).format('Do MMM')}
+                                        <img class="icon" src= ${wIcon + FCData.list[i].weather[0].icon + '.png'}></img>
+                                    </h5>
+                                    <h5 class="time">${moment.unix(FCData.list[i].dt).format('hh:mm a')}</h5>
+                                    <p class="temp">Temp: ${FCData.list[i].main.temp}°C</p>
+                                    <p class="wind">Wind Speed: ${FCData.list[i].wind.speed} KPH</p>
+                                    <p class="humidity">Humidity: ${FCData.list[i].main.humidity}% </p>
+                                </div>         
+    
+                            </section>
+                            `)
 
-                            <div class="card-body">
-                                <h5 class="date">${moment.unix(FCData.list[1].dt).format('Do MMM')}</h5>
-                                <h5 class="time">${moment.unix(FCData.list[1].dt).format('hh:mm a')}</h5>
-                                <p class="temp">Temp ${FCData.list[1].main.temp}°C</p>
-                                <p class="wind">${FCData.list[1].wind.speed} KPH</p>
-                                <p class="humidity">Humidity: ${FCData.list[1].main.humidity}% </p>
-
-                            </div>         
-
-                            <div class="card-body">
-                                <h5 class="date">${moment.unix(FCData.list[2].dt).format('Do MMM')}</h5>
-                                <h5 class="time">${moment.unix(FCData.list[2].dt).format('hh:mm a')}</h5>
-                                <p class="temp">Temp ${FCData.list[2].main.temp}°C</p>
-                                <p class="wind">${FCData.list[2].wind.speed} KPH</p>
-                                <p class="humidity">Humidity: ${FCData.list[2].main.humidity}% </p>
-
-                            </div>  
-
-                            <div class="card-body">
-                                <h5 class="date">${moment.unix(FCData.list[3].dt).format('Do MMM')}</h5>
-                                <h5 class="time">${moment.unix(FCData.list[3].dt).format('hh:mm a')}</h5>
-                                <p class="temp">Temp ${FCData.list[3].main.temp}°C</p>
-                                <p class="wind">${FCData.list[3].wind.speed} KPH</p>
-                                <p class="humidity">Humidity: ${FCData.list[3].main.humidity}% </p>
-
-                            </div>  
-                
-                            <div class="card-body">
-                                <h5 class="date">${moment.unix(FCData.list[4].dt).format('Do MMM')}</h5>
-                                <h5 class="time">${moment.unix(FCData.list[4].dt).format('hh:mm a')}</h5>
-                                <p class="temp">Temp ${FCData.list[4].main.temp}°C</p>
-                                <p class="wind">${FCData.list[4].wind.speed} KPH</p>
-                                <p class="humidity">Humidity: ${FCData.list[4].main.humidity}% </p>
-
-                            </div>  
-                            <div class="card-body">
-                                <h5 class="time">${moment.unix(FCData.list[5].dt).format('Do MMM')}</h5>
-                                <h5 class="time">${moment.unix(FCData.list[5].dt).format('hh:mm a')}</h5>
-                                <p class="temp">Temp ${FCData.list[5].main.temp}°C</p>
-                                <p class="wind">${FCData.list[5].wind.speed} KPH</p>
-                                <p class="humidity">Humidity: ${FCData.list[5].main.humidity}% </p>
-
-                            </div> 
-                            
-                            <div class="card-body">
-                                <h5 class="time">${moment.unix(FCData.list[6].dt).format('Do MMM')}</h5>
-                                <h5 class="time">${moment.unix(FCData.list[6].dt).format('hh:mm a')}</h5>
-                                <p class="temp">Temp ${FCData.list[6].main.temp}°C</p>
-                                <p class="wind">${FCData.list[6].wind.speed} KPH</p>
-                                <p class="humidity">Humidity: ${FCData.list[6].main.humidity}% </p>
-
-                            </div>  
-                        </section>
-                        `)
+                        }
 
                     })
             })
