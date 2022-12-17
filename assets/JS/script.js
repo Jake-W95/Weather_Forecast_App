@@ -1,18 +1,28 @@
 var APIkey = 'd7d17ff04f8715fd79b80f173e2710a1';
 var wIcon = 'https://openweathermap.org/img/w/';
+
 var searchInput = $('.weather-search');
 var searchForm = $('#search-form');
 var searchBtn = $('.search-button');
+
 var todaySec = $('#today');
 var forecastSec = $('#forecast');
+
+// var history = $('.list-group')
+
+
+
+
+
+
 
 searchBtn.click(function (event) {
     event.preventDefault();
     var searchText = searchInput.val().trim();
-    console.log(searchText);
     if (!searchText) {
         alert('please type a city name');
     } else {
+
         $.get(`https://api.openweathermap.org/data/2.5/weather?q=${searchText}&appid=${APIkey}&units=metric`)
             .then(function (data) {
                 todaySec.append(`
@@ -29,8 +39,10 @@ searchBtn.click(function (event) {
 
                 $.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${APIkey}&units=metric`)
                     .then(function (FCData) {
-                        console.log(FCData.list[0], 'FCdata0')
-                        for(var i = 0; i <= 40; i+= 2){
+                        console.log(FCData.list[0], 'FCdata0');
+                        $('#history').append(`<button class="btn-secondary mb-1">${data.name}</button>`);
+
+                        for (var i = 0; i <= 40; i += 2) {
                             forecastSec.append(`
                             <div class="card-body w-20">
                             <div class="card">
@@ -44,14 +56,19 @@ searchBtn.click(function (event) {
                                 </div>         
                                 </div>
                             `)
-
                         }
 
                     })
-            })
+            });
+
     }
 })
 // console.log(currentWeather)
 // function init(){
 //     searchForm.submit(function(event){
 //         event.preventDefault();
+
+
+
+
+{/*  */ }
