@@ -29,13 +29,78 @@ searchBtn.click(function (event) {
             })
 
             .then(function (data) {
-                 //////////////////////////////////////////////////////////////////////////////Add History Item (Button)
-                 $('#history').append(`<button class="btn-secondary mb-1 historyItem">${data.name}</button>`);
+//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\
 
-                 $('.historyItem').click(function(){
-                    alert('works')
-                })
-                 //////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
+                //////////////////////////////////////////////////////////////////////////////Add History Item (Button)
+                $('#history').append(`<button class="btn-secondary mb-1 historyItem">${data.name}</button>`);
+                //////////////////////////////////////////////////////////////////////////////History Button Listener
+                $('.historyItem').click(function () {
+
+                    historyCityName = $(this)[0].innerHTML   ///////////////////////////////////////Button's text (cityName)
+
+                    $.get(`https://api.openweathermap.org/data/2.5/weather?q=${historyCityName}&appid=${APIkey}&units=metric`)
+                        .then(function (histSrchData) {
+                            //////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
+                            todaySec.empty();
+                            forecastSec.empty();
+
+                            /////////////////////////////////////////////////////////////////////////////Add New Today Data From API (History)
+                            todaySec.append(`
+            <div class="card p-4 w-100" id="todaysWeather">
+                <h2 class="cityName">${histSrchData.name} 
+                    <img class="icon" src= ${wIcon + histSrchData.weather[0].icon + '.png'}></img>
+                </h2>
+                <h4 id="todayTemp">Temperature: ${histSrchData.main.temp}°C</h4>
+                <h4 id="todayWind">Wind Speed: ${histSrchData.wind.speed}KPH</h4>
+                <h4 id="todayTempumidity">Humidity: ${histSrchData.main.humidity}%</h4>
+                
+                ////////////////////////////////////////////////////////////////////////////////Time is GMT regardless of chosen location!!!!
+                
+                <h4 id="sunTimes">Sunrise: ${moment.unix(histSrchData.sys.sunrise).format('hh:mm a')}, Sunset: ${moment.unix(histSrchData.sys.sunset).format('hh:mm a')}</h4>
+            </div>`)        /////////////////////////////////////////////////////////////////////////////////End of Append Today (History)
+
+            $.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${histSrchData.coord.lat}&lon=${histSrchData.coord.lon}&appid=${APIkey}&units=metric`)
+                    .then(function (HistForecast) {
+                            // console.log(FCData.list[0], 'FCdata0');
+
+                        ///////////////////////////////////////////////////////////////////////////////Add Cards from API Data (Forecast)
+                            for (var i = 0; i <= 40; i += 2) {
+                            forecastSec.append(`
+                            <div class="card-body w-20">
+                            <div class="card">
+                                    <h5 class="date">${moment.unix(HistForecast.list[i].dt).format('Do MMM')}
+                                        <img class="icon" src= ${wIcon + histSrchData.list[i].weather[0].icon + '.png'}></img>
+                                    </h5>
+                                    <h5 class="time">${moment.unix(HistForecast.list[i].dt).format('hh:mm a')}</h5>
+                                    <p class="temp">Temp: ${HistForecast.list[i].main.temp}°C</p>
+                                    <p class="wind">Wind Speed: ${HistForecast.list[i].wind.speed} KPH</p>
+                                    <p class="humidity">Humidity: ${HistForecast.list[i].main.humidity}% </p>
+                                </div>         
+                                </div>
+                                            `)
+                                                            }
+
+                                            })
+
+
+                        }) //////////////////////////////////////////////////////////////////////////////////End of THEN Function
+                        
+
+
+
+                })          ////////////////////////////////////////////////////////////////////////////End of History Button Function
+
+
+//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\
+
+
+
+
+
+
+
+
+                //////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
                 todaySec.empty();
                 ///////////////////////////////////////////////////////////////////////////////Append New Data
                 todaySec.append(`
@@ -55,11 +120,11 @@ searchBtn.click(function (event) {
 
                 $.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${APIkey}&units=metric`)
                     .then(function (FCData) {
-                        forecastSec.empty();
-                        // console.log(FCData.list[0], 'FCdata0');
-                       
+                             forecastSec.empty();
+                            // console.log(FCData.list[0], 'FCdata0');
+
                         ///////////////////////////////////////////////////////////////////////////////Add Cards from API Data (Forecast)
-                        for (var i = 0; i <= 40; i += 2) {
+                            for (var i = 0; i <= 40; i += 2) {
                             forecastSec.append(`
                             <div class="card-body w-20">
                             <div class="card">
@@ -72,14 +137,15 @@ searchBtn.click(function (event) {
                                     <p class="humidity">Humidity: ${FCData.list[i].main.humidity}% </p>
                                 </div>         
                                 </div>
-                            `)
-                        }
-                        
-                    })
-                })
-                
-            }
-        })
-        
-    
+                                            `)
+                                                            }
+
+                                            }
+                         )
+            })
+
+    }
+})
+
+
 
