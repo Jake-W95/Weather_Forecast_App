@@ -16,7 +16,7 @@ searchBtn.click(function (event) {
         $.get(`https://api.openweathermap.org/data/2.5/weather?q=${searchText}&appid=${APIkey}&units=metric`)
             .then(function (data) {
                 todaySec.append(`
-                <div class="card p-4" id="todaysWeather">
+                <div class="card p-4 w-100" id="todaysWeather">
                     <h2 class="cityName">${data.name} 
                         <img class="icon" src= ${wIcon + data.weather[0].icon + '.png'}></img>
                     </h2>
@@ -32,8 +32,8 @@ searchBtn.click(function (event) {
                         console.log(FCData.list[0], 'FCdata0')
                         for(var i = 0; i <= 40; i+= 2){
                             forecastSec.append(`
-                            <section class="row">
-                                 <div class="card-body">
+                            <div class="card-body w-20">
+                            <div class="card">
                                     <h5 class="date">${moment.unix(FCData.list[i].dt).format('Do MMM')}
                                         <img class="icon" src= ${wIcon + FCData.list[i].weather[0].icon + '.png'}></img>
                                     </h5>
@@ -42,8 +42,7 @@ searchBtn.click(function (event) {
                                     <p class="wind">Wind Speed: ${FCData.list[i].wind.speed} KPH</p>
                                     <p class="humidity">Humidity: ${FCData.list[i].main.humidity}% </p>
                                 </div>         
-    
-                            </section>
+                                </div>
                             `)
 
                         }

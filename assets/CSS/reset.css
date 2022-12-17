@@ -1,18 +1,23 @@
-:root{
+:root {
     --sky: #3fd9ff;
     --dark: #00008b;
 
 }
 
 
-header{
+header {
     background-image: linear-gradient(to right, var(--sky), var(--dark));
 }
 
-.input-group{
-    flex-direction: column;
+.card {
+    background: var(--dark);
+    color: white;
+    padding: 0.5rem;
+}
+.card-body{
+    padding: 0.3rem;
 }
 
-.search-button {
-    background-color: var(--sky);
+.input-group {
+    flex-direction: column;
 }
