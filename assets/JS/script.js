@@ -11,11 +11,6 @@ var forecastSec = $('#forecast');
 // var history = $('.list-group')
 
 
-
-
-
-
-
 searchBtn.click(function (event) {
     event.preventDefault();
     var searchText = searchInput.val().trim();
@@ -29,7 +24,7 @@ searchBtn.click(function (event) {
             })
 
             .then(function (data) {
-//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\
+                //////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\
 
                 //////////////////////////////////////////////////////////////////////////////Add History Item (Button)
                 $('#history').append(`<button class="btn-secondary mb-1 historyItem">${data.name}</button>`);
@@ -59,17 +54,15 @@ searchBtn.click(function (event) {
                 <h4 id="sunTimes">Sunrise: ${moment.unix(histSrchData.sys.sunrise).format('hh:mm a')}, Sunset: ${moment.unix(histSrchData.sys.sunset).format('hh:mm a')}</h4>
             </div>`)        /////////////////////////////////////////////////////////////////////////////////End of Append Today (History)
 
-            $.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${histSrchData.coord.lat}&lon=${histSrchData.coord.lon}&appid=${APIkey}&units=metric`)
-                    .then(function (HistForecast) {
-                            // console.log(FCData.list[0], 'FCdata0');
-
-                        ///////////////////////////////////////////////////////////////////////////////Add Cards from API Data (Forecast)
-                            for (var i = 0; i <= 40; i += 2) {
-                            forecastSec.append(`
+                            $.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${histSrchData.coord.lat}&lon=${histSrchData.coord.lon}&appid=${APIkey}&units=metric`)
+                                .then(function (HistForecast) {
+                                    ///////////////////////////////////////////////////////////////////////////////Add Cards from API Data (Forecast)
+                                    for (var i = 0; i <= 40; i += 2) {
+                                        forecastSec.append(`
                             <div class="card-body w-20">
                             <div class="card">
                                     <h5 class="date">${moment.unix(HistForecast.list[i].dt).format('Do MMM')}
-                                        <img class="icon" src= ${wIcon + histSrchData.list[i].weather[0].icon + '.png'}></img>
+                                        <img class="icon" src= ${wIcon + HistForecast.list[i].weather[0].icon + '.png'}></img>
                                     </h5>
                                     <h5 class="time">${moment.unix(HistForecast.list[i].dt).format('hh:mm a')}</h5>
                                     <p class="temp">Temp: ${HistForecast.list[i].main.temp}°C</p>
@@ -78,30 +71,18 @@ searchBtn.click(function (event) {
                                 </div>         
                                 </div>
                                             `)
-                                                            }
+                                    }
 
-                                            })
-
-
+                                })
                         }) //////////////////////////////////////////////////////////////////////////////////End of THEN Function
-                        
-
-
-
                 })          ////////////////////////////////////////////////////////////////////////////End of History Button Function
 
 
-//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\
-
-
-
-
-
-
-
+                //////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\
 
                 //////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
                 todaySec.empty();
+                forecastSec.empty();
                 ///////////////////////////////////////////////////////////////////////////////Append New Data
                 todaySec.append(`
                 <div class="card p-4 w-100" id="todaysWeather">
@@ -120,11 +101,8 @@ searchBtn.click(function (event) {
 
                 $.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${APIkey}&units=metric`)
                     .then(function (FCData) {
-                             forecastSec.empty();
-                            // console.log(FCData.list[0], 'FCdata0');
-
                         ///////////////////////////////////////////////////////////////////////////////Add Cards from API Data (Forecast)
-                            for (var i = 0; i <= 40; i += 2) {
+                        for (var i = 0; i <= 40; i += 2) {
                             forecastSec.append(`
                             <div class="card-body w-20">
                             <div class="card">
@@ -138,10 +116,10 @@ searchBtn.click(function (event) {
                                 </div>         
                                 </div>
                                             `)
-                                                            }
+                        }
 
-                                            }
-                         )
+                    }
+                    )
             })
 
     }
