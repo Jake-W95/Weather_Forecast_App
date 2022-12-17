@@ -24,7 +24,12 @@ searchBtn.click(function (event) {
     } else {
 
         $.get(`https://api.openweathermap.org/data/2.5/weather?q=${searchText}&appid=${APIkey}&units=metric`)
+            .catch(function () {
+                alert('city not found')
+            })
+
             .then(function (data) {
+                todaySec.empty();
                 todaySec.append(`
                 <div class="card p-4 w-100" id="todaysWeather">
                     <h2 class="cityName">${data.name} 
@@ -39,9 +44,9 @@ searchBtn.click(function (event) {
 
                 $.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${APIkey}&units=metric`)
                     .then(function (FCData) {
-                        console.log(FCData.list[0], 'FCdata0');
+                        forecastSec.empty();
+                        // console.log(FCData.list[0], 'FCdata0');
                         $('#history').append(`<button class="btn-secondary mb-1">${data.name}</button>`);
-
                         for (var i = 0; i <= 40; i += 2) {
                             forecastSec.append(`
                             <div class="card-body w-20">
@@ -59,7 +64,7 @@ searchBtn.click(function (event) {
                         }
 
                     })
-            });
+            })
 
     }
 })
