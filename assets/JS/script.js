@@ -29,7 +29,15 @@ searchBtn.click(function (event) {
             })
 
             .then(function (data) {
+                 //////////////////////////////////////////////////////////////////////////////Add History Item (Button)
+                 $('#history').append(`<button class="btn-secondary mb-1 historyItem">${data.name}</button>`);
+
+                 $('.historyItem').click(function(){
+                    alert('works')
+                })
+                 //////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
                 todaySec.empty();
+                ///////////////////////////////////////////////////////////////////////////////Append New Data
                 todaySec.append(`
                 <div class="card p-4 w-100" id="todaysWeather">
                     <h2 class="cityName">${data.name} 
@@ -38,6 +46,9 @@ searchBtn.click(function (event) {
                     <h4 id="todayTemp">Temperature: ${data.main.temp}°C</h4>
                     <h4 id="todayWind">Wind Speed: ${data.wind.speed}KPH</h4>
                     <h4 id="todayTempumidity">Humidity: ${data.main.humidity}%</h4>
+                    
+                    ////////////////////////////////////////////////////////////////////////////////Time is GMT regardless of chosen location!!!!
+                    
                     <h4 id="sunTimes">Sunrise: ${moment.unix(data.sys.sunrise).format('hh:mm a')}, Sunset: ${moment.unix(data.sys.sunset).format('hh:mm a')}</h4>
                 </div>`
                 )
@@ -46,7 +57,8 @@ searchBtn.click(function (event) {
                     .then(function (FCData) {
                         forecastSec.empty();
                         // console.log(FCData.list[0], 'FCdata0');
-                        $('#history').append(`<button class="btn-secondary mb-1">${data.name}</button>`);
+                       
+                        ///////////////////////////////////////////////////////////////////////////////Add Cards from API Data (Forecast)
                         for (var i = 0; i <= 40; i += 2) {
                             forecastSec.append(`
                             <div class="card-body w-20">
@@ -62,18 +74,12 @@ searchBtn.click(function (event) {
                                 </div>
                             `)
                         }
-
+                        
                     })
-            })
+                })
+                
+            }
+        })
+        
+    
 
-    }
-})
-// console.log(currentWeather)
-// function init(){
-//     searchForm.submit(function(event){
-//         event.preventDefault();
-
-
-
-
-{/*  */ }
