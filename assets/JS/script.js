@@ -1,4 +1,5 @@
-var APIkey = 'd7d17ff04f8715fd79b80f173e2710a1'
+var APIkey = 'd7d17ff04f8715fd79b80f173e2710a1';
+var wIcon = 'https://openweathermap.org/img/w/';
 var searchInput = $('.weather-search');
 var searchForm = $('#search-form');
 var searchBtn = $('.search-button');
@@ -8,19 +9,23 @@ var forecastSec = $('#forecast');
 searchBtn.click(function (event) {
     event.preventDefault();
     var searchText = searchInput.val().trim();
-    console.log(searchText)
+    console.log(searchText);
     if (!searchText) {
         alert('please type a city name');
     } else {
         $.get(`https://api.openweathermap.org/data/2.5/weather?q=${searchText}&appid=${APIkey}&units=metric`)
             .then(function (data) {
-                todaySec.append(`<div class="card p-4" id="todaysWeather">
-                <h2 class="cityName">${data.name}</h2>
-        <h4 id="todayTemp">Temperature: ${data.main.temp}°C</h4>
-               <h4 id="todayWind">Wind Speed: ${data.wind.speed}KPH</h4>
-               <h4 id="todayTempumidity">Humidity: ${data.main.humidity}%</h4>
-                <h4 id="sunTimes">Sunrise: ${moment.unix(data.sys.sunrise).format('hh:mm a')}, Sunset: ${moment.unix(data.sys.sunset).format('hh:mm a')}</h4>
-             </div>`)
+                todaySec.append(`
+                <div class="card p-4" id="todaysWeather">
+                    <h2 class="cityName">${data.name} 
+                        <img class="icon" src= ${wIcon + data.weather[0].icon + '.png'}></img>
+                    </h2>
+                    <h4 id="todayTemp">Temperature: ${data.main.temp}°C</h4>
+                    <h4 id="todayWind">Wind Speed: ${data.wind.speed}KPH</h4>
+                    <h4 id="todayTempumidity">Humidity: ${data.main.humidity}%</h4>
+                    <h4 id="sunTimes">Sunrise: ${moment.unix(data.sys.sunrise).format('hh:mm a')}, Sunset: ${moment.unix(data.sys.sunset).format('hh:mm a')}</h4>
+                </div>`
+                )
 
                 $.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${APIkey}&units=metric`)
                     .then(function (FCData) {
@@ -28,7 +33,10 @@ searchBtn.click(function (event) {
                         forecastSec.append(`
                         <section class="row">
                              <div class="card-body">
-                                <h5 class="date">${moment.unix(FCData.list[0].dt).format('Do MMM')}</h5>
+                                <h5 class="date">${moment.unix(FCData.list[0].dt).format('Do MMM')}
+                <img class="icon" src= ${wIcon + FCData.list[0].weather[0].icon + '.png'}></img>
+                                
+                                </h5>
                                 <h5 class="time">${moment.unix(FCData.list[0].dt).format('hh:mm a')}</h5>
                                 <p class="temp">Temp: ${FCData.list[0].main.temp}°C</p>
                                 <p class="wind">Wind Speed: ${FCData.list[0].wind.speed} KPH</p>
