@@ -27,7 +27,12 @@ searchBtn.click(function (event) {
                 //////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\
 
                 //////////////////////////////////////////////////////////////////////////////Add History Item (Button)
-
+                console.log($('#history'))
+                for (var histListItem of $('#history')[0].childNodes) {
+                    if($(histListItem).text().indexOf(data.name) != -1){
+                        alert('found')
+                    }
+                }
 
                 $('#history').append(`<button class="btn-secondary mb-1 historyItem">${data.name}</button>`);
                 //////////////////////////////////////////////////////////////////////////////History Button Listener
@@ -126,6 +131,5 @@ searchBtn.click(function (event) {
 
     }
 })
-
 
 
