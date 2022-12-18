@@ -27,6 +27,8 @@ searchBtn.click(function (event) {
                 //////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\
 
                 //////////////////////////////////////////////////////////////////////////////Add History Item (Button)
+
+
                 $('#history').append(`<button class="btn-secondary mb-1 historyItem">${data.name}</button>`);
                 //////////////////////////////////////////////////////////////////////////////History Button Listener
                 $('.historyItem').click(function () {
