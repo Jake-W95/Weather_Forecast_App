@@ -8,6 +8,9 @@ var searchBtn = $('.search-button');
 var todaySec = $('#today');
 var forecastSec = $('#forecast');
 
+
+var duplicates = [];
+
 // var history = $('.list-group')
 
 
@@ -25,16 +28,26 @@ searchBtn.click(function (event) {
 
             .then(function (data) {
                 //////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\
+                //////////////////////////////////////////////////////////////////////////////History Scope Variable
+                var button = `<button class="btn-secondary mb-1 historyItem">${data.name}</button>`
 
                 //////////////////////////////////////////////////////////////////////////////Add History Item (Button)
-                console.log($('#history'))
-                for (var histListItem of $('#history')[0].childNodes) {
-                    if($(histListItem).text().indexOf(data.name) != -1){
-                        alert('found')
-                    }
+                $('#history').prepend(button);
+                //////////////////////////////////////////////////////////////////////////////Prevent Item Duplicates
+                for (item of $('.historyItem')) {
+                    if ($(item).text() == data.name) {
+                        duplicates.push(item);
+                        console.log(duplicates, 'before')
+                        if(duplicates.length > 1){
+                            duplicates = [];
+                            $('.historyItem').first().remove();
+                            console.log(duplicates, 'after');
+                            
+                        }
+                        
+                    } 
                 }
-
-                $('#history').append(`<button class="btn-secondary mb-1 historyItem">${data.name}</button>`);
+                
                 //////////////////////////////////////////////////////////////////////////////History Button Listener
                 $('.historyItem').click(function () {
 
@@ -42,11 +55,11 @@ searchBtn.click(function (event) {
 
                     $.get(`https://api.openweathermap.org/data/2.5/weather?q=${historyCityName}&appid=${APIkey}&units=metric`)
                         .then(function (histSrchData) {
-                            //////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
+                ////////////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
                             todaySec.empty();
                             forecastSec.empty();
 
-                            /////////////////////////////////////////////////////////////////////////////Add New Today Data From API (History)
+                ///////////////////////////////////////////////////////////////////////////////////Add New Today Data From API (History)
                             todaySec.append(`
             <div class="card p-4 w-100" id="todaysWeather">
                 <h2 class="cityName">${histSrchData.name} 
@@ -59,11 +72,12 @@ searchBtn.click(function (event) {
                 ////////////////////////////////////////////////////////////////////////////////Time is GMT regardless of chosen location!!!!
                 
                 <h4 id="sunTimes">Sunrise: ${moment.unix(histSrchData.sys.sunrise).format('hh:mm a')}, Sunset: ${moment.unix(histSrchData.sys.sunset).format('hh:mm a')}</h4>
-            </div>`)        /////////////////////////////////////////////////////////////////////////////////End of Append Today (History)
+            </div>`)        
+                ////////////////////////////////////////////////////////////////////////////////////End of Append Today (History)
 
                             $.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${histSrchData.coord.lat}&lon=${histSrchData.coord.lon}&appid=${APIkey}&units=metric`)
                                 .then(function (HistForecast) {
-                                    ///////////////////////////////////////////////////////////////////////////////Add Cards from API Data (Forecast)
+                ////////////////////////////////////////////////////////////////////////////////////Add Cards from API Data (Forecast)
                                     for (var i = 0; i <= 40; i += 2) {
                                         forecastSec.append(`
                             <div class="card-body w-20">
