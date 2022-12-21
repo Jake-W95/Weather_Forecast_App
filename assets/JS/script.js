@@ -40,7 +40,7 @@ searchBtn.click(function (event) {
                     if ($(item).text() == data.name) {
                         duplicates.push(item);
                         
-                        // console.log(duplicates, 'before')
+                        
                         if(duplicates.length > 1){
                             duplicates = [];
                             $('.historyItem').first().remove();
@@ -59,7 +59,8 @@ searchBtn.click(function (event) {
                         storeHistory.pop()
                     }
                 }
-                console.log(storeHistory, 'POPPED')
+                localStorage.setItem('userHistory', storeHistory)
+                
           
                 //////////////////////////////////////////////////////////////////////////////History Button Listener
                 $('.historyItem').click(function () {
