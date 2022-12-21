@@ -11,7 +11,7 @@ var forecastSec = $('#forecast');
 
 var duplicates = [];
 
-// var history = $('.list-group')
+var storeHistory = []
 
 
 searchBtn.click(function (event) {
@@ -29,25 +29,39 @@ searchBtn.click(function (event) {
             .then(function (data) {
                 //////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\
                 //////////////////////////////////////////////////////////////////////////////History Scope Variable
-                var button = `<button class="btn-secondary mb-1 historyItem">${data.name}</button>`
+                var button = `<button class="btn-secondary mb-1 historyItem">${data.name}</button>`;
 
                 //////////////////////////////////////////////////////////////////////////////Add History Item (Button)
                 $('#history').prepend(button);
+                storeHistory.push(button)
                 //////////////////////////////////////////////////////////////////////////////Prevent Item Duplicates
+                ////////////////////////////////////////////////////////History Buttons
                 for (item of $('.historyItem')) {
                     if ($(item).text() == data.name) {
                         duplicates.push(item);
-                        console.log(duplicates, 'before')
+                        
+                        
                         if(duplicates.length > 1){
                             duplicates = [];
                             $('.historyItem').first().remove();
-                            console.log(duplicates, 'after');
-                            
                         }
+                        
                         
                     } 
                 }
+                ///////////////////////////////////////////////////////History Item Array
                 
+                for(var i = storeHistory.length-2; i >= 0; i--){
+                    
+                    alert(i)
+                    if(button === storeHistory[i]){
+                        alert('pop')
+                        storeHistory.pop()
+                    }
+                }
+                localStorage.setItem('userHistory', storeHistory)
+                
+          
                 //////////////////////////////////////////////////////////////////////////////History Button Listener
                 $('.historyItem').click(function () {
 
@@ -145,4 +159,3 @@ searchBtn.click(function (event) {
 
     }
 })
-
