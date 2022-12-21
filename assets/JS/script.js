@@ -10,8 +10,16 @@ var forecastSec = $('#forecast');
 
 
 var duplicates = [];
-
 var storeHistory = []
+
+
+function LOAD (){
+    $('#history').prepend(localStorage.getItem('userHistory'))
+}
+
+
+
+LOAD()
 
 
 searchBtn.click(function (event) {
