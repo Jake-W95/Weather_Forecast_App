@@ -10,8 +10,20 @@ var forecastSec = $('#forecast');
 
 
 var duplicates = [];
+var storeHistory = [];
+var clearBtn = $('.clear');
 
-var storeHistory = []
+function LOAD() {
+    $('#history').append(localStorage.getItem('userHistory'));
+}
+function CLEAR() {
+    $('.historyItem').remove();
+    localStorage.clear()
+}
+
+LOAD();
+
+$(clearBtn).click(CLEAR);
 
 
 searchBtn.click(function (event) {
@@ -39,29 +51,27 @@ searchBtn.click(function (event) {
                 for (item of $('.historyItem')) {
                     if ($(item).text() == data.name) {
                         duplicates.push(item);
-                        
-                        
-                        if(duplicates.length > 1){
+                        if (duplicates.length > 1) {
                             duplicates = [];
                             $('.historyItem').first().remove();
                         }
-                        
-                        
-                    } 
+
+
+                    }
                 }
                 ///////////////////////////////////////////////////////History Item Array
-                
-                for(var i = storeHistory.length-2; i >= 0; i--){
+
+                for (var i = storeHistory.length - 2; i >= 0; i--) {
+
                     
-                    alert(i)
-                    if(button === storeHistory[i]){
-                        alert('pop')
+                    if (button === storeHistory[i]) {
+                        
                         storeHistory.pop()
                     }
                 }
                 localStorage.setItem('userHistory', storeHistory)
-                
-          
+
+
                 //////////////////////////////////////////////////////////////////////////////History Button Listener
                 $('.historyItem').click(function () {
 
@@ -69,11 +79,11 @@ searchBtn.click(function (event) {
 
                     $.get(`https://api.openweathermap.org/data/2.5/weather?q=${historyCityName}&appid=${APIkey}&units=metric`)
                         .then(function (histSrchData) {
-                ////////////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
+                            ////////////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
                             todaySec.empty();
                             forecastSec.empty();
 
-                ///////////////////////////////////////////////////////////////////////////////////Add New Today Data From API (History)
+                            ///////////////////////////////////////////////////////////////////////////////////Add New Today Data From API (History)
                             todaySec.append(`
             <div class="card p-4 w-100" id="todaysWeather">
                 <h2 class="cityName">${histSrchData.name} 
@@ -86,12 +96,12 @@ searchBtn.click(function (event) {
                 ////////////////////////////////////////////////////////////////////////////////Time is GMT regardless of chosen location!!!!
                 
                 <h4 id="sunTimes">Sunrise: ${moment.unix(histSrchData.sys.sunrise).format('hh:mm a')}, Sunset: ${moment.unix(histSrchData.sys.sunset).format('hh:mm a')}</h4>
-            </div>`)        
-                ////////////////////////////////////////////////////////////////////////////////////End of Append Today (History)
+            </div>`)
+                            ////////////////////////////////////////////////////////////////////////////////////End of Append Today (History)
 
                             $.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${histSrchData.coord.lat}&lon=${histSrchData.coord.lon}&appid=${APIkey}&units=metric`)
                                 .then(function (HistForecast) {
-                ////////////////////////////////////////////////////////////////////////////////////Add Cards from API Data (Forecast)
+                                    ////////////////////////////////////////////////////////////////////////////////////Add Cards from API Data (Forecast)
                                     for (var i = 0; i <= 40; i += 2) {
                                         forecastSec.append(`
                             <div class="card-body w-20">
