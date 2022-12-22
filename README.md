@@ -10,3 +10,4 @@ The page worked well, but I somehow managed to delete some code at the very end 
 2. After the first search (with nothing in local storage), the user needs to press enter a *second* time for the button to be added to history.
 3. When loading buttons from local storage commas are loaded between each, causing styling errors. 
 
+![](https://github.com/Jake-W95/Weather_Forecast_App/blob/master/Working%20site....png)
