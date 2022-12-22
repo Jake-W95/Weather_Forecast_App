@@ -63,9 +63,9 @@ searchBtn.click(function (event) {
 
                 for (var i = storeHistory.length - 2; i >= 0; i--) {
 
-                    alert(i)
+                    
                     if (button === storeHistory[i]) {
-                        // alert('pop')
+                        
                         storeHistory.pop()
                     }
                 }
