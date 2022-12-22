@@ -14,7 +14,7 @@ var storeHistory = [];
 var clearBtn = $('.clear');
 
 function LOAD() {
-    $('#history').append(localStorage.getItem('userHistory'));
+    $('#history').prepend(localStorage.getItem('userHistory'));
 }
 function CLEAR() {
     $('.historyItem').remove();
