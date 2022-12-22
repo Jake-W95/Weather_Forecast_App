@@ -26,6 +26,7 @@ LOAD();
 $(clearBtn).click(CLEAR);
 
 
+
 searchBtn.click(function (event) {
     event.preventDefault();
     var searchText = searchInput.val().trim();
