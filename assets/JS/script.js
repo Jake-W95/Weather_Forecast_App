@@ -10,23 +10,20 @@ var forecastSec = $('#forecast');
 
 
 var duplicates = [];
-var storeHistory = []
-
-var clearBtn = $('.clear')
-
+var storeHistory = [];
+var clearBtn = $('.clear');
 
 function LOAD() {
-    $('#history').prepend(localStorage.getItem('userHistory'))
+    $('#history').append(localStorage.getItem('userHistory'));
 }
 function CLEAR() {
-    localStorage.clear();
-    $('.historyItem').remove()
+    $('.historyItem').remove();
+    localStorage.clear()
 }
 
+LOAD();
 
-
-LOAD()
-$(clearBtn).click(CLEAR)
+$(clearBtn).click(CLEAR);
 
 
 searchBtn.click(function (event) {
@@ -54,8 +51,6 @@ searchBtn.click(function (event) {
                 for (item of $('.historyItem')) {
                     if ($(item).text() == data.name) {
                         duplicates.push(item);
-
-
                         if (duplicates.length > 1) {
                             duplicates = [];
                             $('.historyItem').first().remove();
@@ -67,15 +62,16 @@ searchBtn.click(function (event) {
                 ///////////////////////////////////////////////////////History Item Array
 
                 for (var i = storeHistory.length - 2; i >= 0; i--) {
+
+                    alert(i)
                     if (button === storeHistory[i]) {
+                        // alert('pop')
                         storeHistory.pop()
                     }
                 }
                 localStorage.setItem('userHistory', storeHistory)
 
-                if (!$('historyItem')) {
-                    $('#history').append(`<button>Clear History</button>`)
-                }
+
                 //////////////////////////////////////////////////////////////////////////////History Button Listener
                 $('.historyItem').click(function () {
 
