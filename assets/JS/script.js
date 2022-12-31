@@ -12,9 +12,15 @@ var forecastSec = $('#forecast');
 var duplicates = [];
 var storeHistory = [];
 var clearBtn = $('.clear');
+// var archive = {localStorage}
 
+// console.log(archive)
 function LOAD() {
-    $('#history').prepend(localStorage.getItem('userHistory'));
+    // $('#history').prepend(localStorage.getItem('userHistory'));
+for(key in localStorage){
+    // alert(key)
+    $('#history').prepend(localStorage.getItem(key));
+}
 }
 function CLEAR() {
     $('.historyItem').remove();
@@ -66,7 +72,7 @@ searchBtn.click(function (event) {
                     }
                 }
 
-                for (var item of storeHistory){
+                for (var item of storeHistory) {
                     localStorage.setItem($(item).text(), item)
 
                 }
@@ -74,7 +80,7 @@ searchBtn.click(function (event) {
                 // localStorage.setItem('userHistory', storeHistory)
 
 
-                       ////////////////////////////////////////////////////////////////////////////End of History Button Function
+                ////////////////////////////////////////////////////////////////////////////End of History Button Function
 
 
                 //////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\
@@ -171,4 +177,7 @@ $('.historyItem').click(function () {
 
                 })
         }) //////////////////////////////////////////////////////////////////////////////////End of THEN Function
-})   
+})
+
+
+
