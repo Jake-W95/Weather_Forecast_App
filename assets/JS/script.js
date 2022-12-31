@@ -65,7 +65,13 @@ searchBtn.click(function (event) {
                         storeHistory.pop()
                     }
                 }
-                localStorage.setItem('userHistory', storeHistory)
+
+                for (var item of storeHistory){
+                    localStorage.setItem($(item).text(), item)
+
+                }
+
+                // localStorage.setItem('userHistory', storeHistory)
 
 
                        ////////////////////////////////////////////////////////////////////////////End of History Button Function
