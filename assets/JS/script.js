@@ -8,7 +8,6 @@ var searchBtn = $('.search-button');
 var todaySec = $('#today');
 var forecastSec = $('#forecast');
 
-
 var duplicates = [];
 var clearBtn = $('.clear');
 
@@ -16,8 +15,6 @@ function LOAD() {
     for (key in localStorage) {
         $('#history').prepend(localStorage.getItem(key));
     }
-
-
 }
 function CLEAR() {
     $('.historyItem').remove();
@@ -42,12 +39,10 @@ searchBtn.click(function (event) {
             .then(function (data) {
                 //////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\
                 var button = `<button class="btn-secondary mb-1 historyItem">${data.name}</button>`;
-
                 //////////////////////////////////////////////////////////////////////////////Add History Item (Button)
                 $('#history').prepend(button);
                 localStorage.setItem($(button).text(), button);
                 //////////////////////////////////////////////////////////////////////////////Prevent Item Duplicates
-                
                 for (item of $('.historyItem')) {
                     if ($(item).text() == data.name) {
                         duplicates.push(item);
@@ -55,13 +50,9 @@ searchBtn.click(function (event) {
                             duplicates = [];
                             $('.historyItem').first().remove();
                         }
-
-
                     }
                 }
-                              ////////////////////////////////////////////////////////////////////////////End of History Button Function
-
-
+                ////////////////////////////////////////////////////////////////////////////End of History Button Function
                 //////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\
 
                 //////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
@@ -76,17 +67,13 @@ searchBtn.click(function (event) {
                     <h4 id="todayTemp">Temperature: ${data.main.temp}°C</h4>
                     <h4 id="todayWind">Wind Speed: ${data.wind.speed}KPH</h4>
                     <h4 id="todayTempumidity">Humidity: ${data.main.humidity}%</h4>
-                    
-                    ////////////////////////////////////////////////////////////////////////////////Time is GMT regardless of chosen location!!!!
-                    
                     <h4 id="sunTimes">Sunrise: ${moment.unix(data.sys.sunrise).format('hh:mm a')}, Sunset: ${moment.unix(data.sys.sunset).format('hh:mm a')}</h4>
                 </div>`
                 )
-
                 $.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${APIkey}&units=metric`)
                     .then(function (FCData) {
                         ///////////////////////////////////////////////////////////////////////////////Add Cards from API Data (Forecast)
-                        for (var i = 0; i <= 40; i += 2) {
+                        for (var i = 0; i <= 40; i += 3) {
                             forecastSec.append(`
                             <div class="card-body w-20">
                             <div class="card">
@@ -101,19 +88,15 @@ searchBtn.click(function (event) {
                                 </div>
                                             `)
                         }
-
                     }
                     )
             })
-
     }
 })
 //////////////////////////////////////////////////////////////////////////////History Button Listener
 
-$(document).on('click', '.historyItem', function(){
+$(document).on('click', '.historyItem', function () {
     var historyCityName = $(this)[0].innerHTML   ///////////////////////////////////////Button's text (cityName)
-    
-
     $.get(`https://api.openweathermap.org/data/2.5/weather?q=${historyCityName}&appid=${APIkey}&units=metric`)
         .then(function (histSrchData) {
             ////////////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
@@ -128,9 +111,6 @@ $(document).on('click', '.historyItem', function(){
 <h4 id="todayTemp">Temperature: ${histSrchData.main.temp}°C</h4>
 <h4 id="todayWind">Wind Speed: ${histSrchData.wind.speed}KPH</h4>
 <h4 id="todayTempumidity">Humidity: ${histSrchData.main.humidity}%</h4>
-
-////////////////////////////////////////////////////////////////////////////////Time is GMT regardless of chosen location!!!!
-
 <h4 id="sunTimes">Sunrise: ${moment.unix(histSrchData.sys.sunrise).format('hh:mm a')}, Sunset: ${moment.unix(histSrchData.sys.sunset).format('hh:mm a')}</h4>
 </div>`)
             ////////////////////////////////////////////////////////////////////////////////////End of Append Today (History)
