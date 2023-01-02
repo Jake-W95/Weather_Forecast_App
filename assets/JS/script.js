@@ -10,17 +10,14 @@ var forecastSec = $('#forecast');
 
 
 var duplicates = [];
-var storeHistory = [];
 var clearBtn = $('.clear');
-// var archive = {localStorage}
 
-// console.log(archive)
 function LOAD() {
-    // $('#history').prepend(localStorage.getItem('userHistory'));
-for(key in localStorage){
-    // alert(key)
-    $('#history').prepend(localStorage.getItem(key));
-}
+    for (key in localStorage) {
+        $('#history').prepend(localStorage.getItem(key));
+    }
+
+
 }
 function CLEAR() {
     $('.historyItem').remove();
@@ -39,19 +36,18 @@ searchBtn.click(function (event) {
 
         $.get(`https://api.openweathermap.org/data/2.5/weather?q=${searchText}&appid=${APIkey}&units=metric`)
             .catch(function () {
-                alert('city not found')
+                alert('city not found, please check spelling')
             })
 
             .then(function (data) {
                 //////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\
-                //////////////////////////////////////////////////////////////////////////////History Scope Variable
                 var button = `<button class="btn-secondary mb-1 historyItem">${data.name}</button>`;
 
                 //////////////////////////////////////////////////////////////////////////////Add History Item (Button)
                 $('#history').prepend(button);
-                storeHistory.push(button)
+                localStorage.setItem($(button).text(), button);
                 //////////////////////////////////////////////////////////////////////////////Prevent Item Duplicates
-                ////////////////////////////////////////////////////////History Buttons
+                
                 for (item of $('.historyItem')) {
                     if ($(item).text() == data.name) {
                         duplicates.push(item);
@@ -63,24 +59,7 @@ searchBtn.click(function (event) {
 
                     }
                 }
-                ///////////////////////////////////////////////////////History Item Array
-
-                for (var i = storeHistory.length - 2; i >= 0; i--) {
-
-                    if (button === storeHistory[i]) {
-                        storeHistory.pop()
-                    }
-                }
-
-                for (var item of storeHistory) {
-                    localStorage.setItem($(item).text(), item)
-
-                }
-
-                // localStorage.setItem('userHistory', storeHistory)
-
-
-                ////////////////////////////////////////////////////////////////////////////End of History Button Function
+                              ////////////////////////////////////////////////////////////////////////////End of History Button Function
 
 
                 //////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\
@@ -130,16 +109,16 @@ searchBtn.click(function (event) {
     }
 })
 //////////////////////////////////////////////////////////////////////////////History Button Listener
-$('.historyItem').click(function () {
 
+$(document).on('click', '.historyItem', function(){
     var historyCityName = $(this)[0].innerHTML   ///////////////////////////////////////Button's text (cityName)
+    
 
     $.get(`https://api.openweathermap.org/data/2.5/weather?q=${historyCityName}&appid=${APIkey}&units=metric`)
         .then(function (histSrchData) {
             ////////////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
             todaySec.empty();
             forecastSec.empty();
-
             ///////////////////////////////////////////////////////////////////////////////////Add New Today Data From API (History)
             todaySec.append(`
 <div class="card p-4 w-100" id="todaysWeather">
