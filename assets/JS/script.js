@@ -109,10 +109,10 @@ searchBtn.click(function (event) {
     }
 })
 //////////////////////////////////////////////////////////////////////////////History Button Listener
-$('.historyItem').click(function () {
 
+$(document).on('click', '.historyItem', function(){
     var historyCityName = $(this)[0].innerHTML   ///////////////////////////////////////Button's text (cityName)
-    // alert(historyCityName)
+    
 
     $.get(`https://api.openweathermap.org/data/2.5/weather?q=${historyCityName}&appid=${APIkey}&units=metric`)
         .then(function (histSrchData) {
