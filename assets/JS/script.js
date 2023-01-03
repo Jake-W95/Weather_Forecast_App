@@ -41,15 +41,14 @@ searchBtn.click(function (event) {
             .then(function (data) {
                 //////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\
                 var button = `<button class="btn-secondary mb-1 historyItem">${data.name}</button>`;
-                var sunrise = moment.unix(data.sys.sunrise + data.timezone).format('hh:mm a')
+                var sunrise = moment.unix(data.sys.sunrise + data.timezone).format('hh:mm a');
+                var sunset = moment.unix(data.sys.sunset + data.timezone).format('hh:mm a')
                 //////////////////////////////////////////////////////////////////////////////Add History Item (Button)
                 duplicateCheck.add(button);
                 $('.historyItem').remove();
                 for (var item of duplicateCheck) {
                     $('#history').prepend(item)
                 }
-                console.log(duplicateCheck)
-                // $('.historyItem').remove();
                 localStorage.setItem($(button).text(), button);
                 ////////////////////////////////////////////////////////////////////////////End of History Button Function
                 //////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\
@@ -66,7 +65,7 @@ searchBtn.click(function (event) {
                     <h4 id="todayTemp">Temperature: ${data.main.temp}°C</h4>
                     <h4 id="todayWind">Wind Speed: ${data.wind.speed}KPH</h4>
                     <h4 id="todayTempumidity">Humidity: ${data.main.humidity}%</h4>
-                    <h4 id="sunTimes">Sunrise: ${sunrise}, Sunset: ${moment.unix(data.sys.sunset).format('hh:mm a')}</h4>
+                    <h4 id="sunTimes">Sunrise: ${sunrise}, Sunset: ${sunset}</h4>
                 </div>`
                 )
                 $.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${APIkey}&units=metric`)
@@ -97,8 +96,10 @@ searchBtn.click(function (event) {
 $(document).on('click', '.historyItem', function () {
     var historyCityName = $(this)[0].innerHTML   ///////////////////////////////////////Button's text (cityName)
     $.get(`https://api.openweathermap.org/data/2.5/weather?q=${historyCityName}&appid=${APIkey}&units=metric`)
-        .then(function (histSrchData) {
-            ////////////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
+    .then(function (histSrchData) {
+        ////////////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
+        var historySunrise = moment.unix(histSrchData.sys.sunrise + histSrchData.timezone).format('hh:mm a');
+        var historySunset = moment.unix(histSrchData.sys.sunset + histSrchData.timezone).format('hh:mm a');
             todaySec.empty();
             forecastSec.empty();
             ///////////////////////////////////////////////////////////////////////////////////Add New Today Data From API (History)
@@ -110,7 +111,7 @@ $(document).on('click', '.historyItem', function () {
 <h4 id="todayTemp">Temperature: ${histSrchData.main.temp}°C</h4>
 <h4 id="todayWind">Wind Speed: ${histSrchData.wind.speed}KPH</h4>
 <h4 id="todayTempumidity">Humidity: ${histSrchData.main.humidity}%</h4>
-<h4 id="sunTimes">Sunrise: ${moment.unix(histSrchData.sys.sunrise).format('hh:mm a')}, Sunset: ${moment.unix(histSrchData.sys.sunset).format('hh:mm a')}</h4>
+<h4 id="sunTimes">Sunrise: ${historySunrise}, Sunset: ${historySunset}</h4>
 </div>`)
             ////////////////////////////////////////////////////////////////////////////////////End of Append Today (History)
 
