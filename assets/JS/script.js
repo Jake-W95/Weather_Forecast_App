@@ -8,7 +8,7 @@ var searchBtn = $('.search-button');
 var todaySec = $('#today');
 var forecastSec = $('#forecast');
 
-var duplicates = [];
+var duplicateCheck = new Set(); ////////////////////////////////////////////////Use of "SET" means no duplcates
 var clearBtn = $('.clear');
 
 function LOAD() {
@@ -40,18 +40,12 @@ searchBtn.click(function (event) {
                 //////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\
                 var button = `<button class="btn-secondary mb-1 historyItem">${data.name}</button>`;
                 //////////////////////////////////////////////////////////////////////////////Add History Item (Button)
-                $('#history').prepend(button);
-                localStorage.setItem($(button).text(), button);
-                //////////////////////////////////////////////////////////////////////////////Prevent Item Duplicates
-                for (item of $('.historyItem')) {
-                    if ($(item).text() == data.name) {
-                        duplicates.push(item);
-                        if (duplicates.length > 1) {
-                            duplicates = [];
-                            $('.historyItem').first().remove();
-                        }
-                    }
+                duplicateCheck.add(button);
+                $('.historyItem').remove();
+                for(var item of duplicateCheck){
+                    $('#history').prepend(item)
                 }
+                localStorage.setItem($(button).text(), button);
                 ////////////////////////////////////////////////////////////////////////////End of History Button Function
                 //////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\
 
