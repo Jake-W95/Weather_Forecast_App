@@ -14,7 +14,9 @@ var clearBtn = $('.clear');
 function LOAD() {
     for (key in localStorage) {
         $('#history').prepend(localStorage.getItem(key));
+        duplicateCheck.add(localStorage.getItem(key))
     }
+
 }
 function CLEAR() {
     $('.historyItem').remove();
@@ -39,12 +41,15 @@ searchBtn.click(function (event) {
             .then(function (data) {
                 //////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\
                 var button = `<button class="btn-secondary mb-1 historyItem">${data.name}</button>`;
+                var sunrise = moment.unix(data.sys.sunrise + data.timezone).format('hh:mm a')
                 //////////////////////////////////////////////////////////////////////////////Add History Item (Button)
                 duplicateCheck.add(button);
                 $('.historyItem').remove();
-                for(var item of duplicateCheck){
+                for (var item of duplicateCheck) {
                     $('#history').prepend(item)
                 }
+                console.log(duplicateCheck)
+                // $('.historyItem').remove();
                 localStorage.setItem($(button).text(), button);
                 ////////////////////////////////////////////////////////////////////////////End of History Button Function
                 //////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\//////////END_OF_HISTORY\\\\\\\\\\
@@ -61,7 +66,7 @@ searchBtn.click(function (event) {
                     <h4 id="todayTemp">Temperature: ${data.main.temp}°C</h4>
                     <h4 id="todayWind">Wind Speed: ${data.wind.speed}KPH</h4>
                     <h4 id="todayTempumidity">Humidity: ${data.main.humidity}%</h4>
-                    <h4 id="sunTimes">Sunrise: ${moment.unix(data.sys.sunrise).format('hh:mm a')}, Sunset: ${moment.unix(data.sys.sunset).format('hh:mm a')}</h4>
+                    <h4 id="sunTimes">Sunrise: ${sunrise}, Sunset: ${moment.unix(data.sys.sunset).format('hh:mm a')}</h4>
                 </div>`
                 )
                 $.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${APIkey}&units=metric`)
@@ -131,6 +136,5 @@ $(document).on('click', '.historyItem', function () {
                 })
         }) //////////////////////////////////////////////////////////////////////////////////End of THEN Function
 })
-
 
 
