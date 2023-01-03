@@ -42,6 +42,9 @@ searchBtn.click(function (event) {
             .then(function (data) {
                 //////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\//////////HISTORY\\\\\\\\\\
                 var button = `<button class="btn-secondary mb-1 historyItem">${data.name}</button>`;
+
+                /////////////////////////////////////////////////////////////////////////////////////Time Elements
+                var currentTime = moment.unix(data.dt + data.timezone).format('hh:mm a');
                 var sunrise = moment.unix(data.sys.sunrise + data.timezone).format('hh:mm a');
                 var sunset = moment.unix(data.sys.sunset + data.timezone).format('hh:mm a')
                 //////////////////////////////////////////////////////////////////////////////Add History Item (Button)
@@ -62,6 +65,7 @@ searchBtn.click(function (event) {
                 <div class="card p-4 w-100" id="todaysWeather">
                     <h2 class="cityName">${data.name} 
                         <img class="icon" src= ${wIcon + data.weather[0].icon + '.png'}></img>
+                        ${currentTime}
                     </h2>
                     <h4 id="todayTemp">Temperature: ${data.main.temp}°C</h4>
                     <h4 id="todayWind">Wind Speed: ${data.wind.speed}KPH</h4>
@@ -97,10 +101,10 @@ searchBtn.click(function (event) {
 $(document).on('click', '.historyItem', function () {
     var historyCityName = $(this)[0].innerHTML   ///////////////////////////////////////Button's text (cityName)
     $.get(`https://api.openweathermap.org/data/2.5/weather?q=${historyCityName}&appid=${APIkey}&units=metric`)
-    .then(function (histSrchData) {
-        ////////////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
-        var historySunrise = moment.unix(histSrchData.sys.sunrise + histSrchData.timezone).format('hh:mm a');
-        var historySunset = moment.unix(histSrchData.sys.sunset + histSrchData.timezone).format('hh:mm a');
+        .then(function (histSrchData) {
+            ////////////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
+            var historySunrise = moment.unix(histSrchData.sys.sunrise + histSrchData.timezone).format('hh:mm a');
+            var historySunset = moment.unix(histSrchData.sys.sunset + histSrchData.timezone).format('hh:mm a');
             todaySec.empty();
             forecastSec.empty();
             ///////////////////////////////////////////////////////////////////////////////////Add New Today Data From API (History)
