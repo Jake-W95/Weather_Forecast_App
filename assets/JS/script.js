@@ -103,6 +103,7 @@ $(document).on('click', '.historyItem', function () {
     $.get(`https://api.openweathermap.org/data/2.5/weather?q=${historyCityName}&appid=${APIkey}&units=metric`)
         .then(function (histSrchData) {
             ////////////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
+            var histCurrentTime = moment.unix(histSrchData.dt + histSrchData.timezone).format('hh:mm a');
             var historySunrise = moment.unix(histSrchData.sys.sunrise + histSrchData.timezone).format('hh:mm a');
             var historySunset = moment.unix(histSrchData.sys.sunset + histSrchData.timezone).format('hh:mm a');
             todaySec.empty();
@@ -112,6 +113,7 @@ $(document).on('click', '.historyItem', function () {
 <div class="card p-4 w-100" id="todaysWeather">
 <h2 class="cityName">${histSrchData.name} 
     <img class="icon" src= ${wIcon + histSrchData.weather[0].icon + '.png'}></img>
+    ${histCurrentTime}
 </h2>
 <h4 id="todayTemp">Temperature: ${histSrchData.main.temp}°C</h4>
 <h4 id="todayWind">Wind Speed: ${histSrchData.wind.speed}KPH</h4>
