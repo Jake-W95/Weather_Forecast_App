@@ -20,7 +20,8 @@ function LOAD() {
 }
 function CLEAR() {
     $('.historyItem').remove();
-    localStorage.clear()
+    localStorage.clear();
+    duplicateCheck.clear();
 }
 LOAD();
 $(clearBtn).click(CLEAR);
