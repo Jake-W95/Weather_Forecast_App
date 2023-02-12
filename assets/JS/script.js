@@ -62,7 +62,7 @@ searchBtn.click(function (event) {
                 forecastSec.empty();
                 ///////////////////////////////////////////////////////////////////////////////Append New Data
                 todaySec.append(`
-                <div class="card p-4 w-100" id="todaysWeather">
+                <div class="card p-4 w-75" id="todaysWeather">
                     <h2 class="cityName">${data.name} 
                         <img class="icon" src= ${wIcon + data.weather[0].icon + '.png'}></img>
                         ${currentTime}
@@ -100,7 +100,7 @@ searchBtn.click(function (event) {
 
 $(document).on('click', '.historyItem', function () {
     var historyCityName = $(this)[0].innerHTML   ///////////////////////////////////////Button's text (cityName)
-    $.get(`https://api.openweathermap.org/data/2.5/weather?q=${historyCityName}&appid=${APIkey}&units=metric`)
+    $.get(`https://api.openweathermap.org/data/2.5/weather?q=${historyCityName},UK&appid=${APIkey}&units=metric`)
         .then(function (histSrchData) {
             ////////////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
             var histCurrentTime = moment.unix(histSrchData.dt + histSrchData.timezone).format('hh:mm a');
@@ -110,7 +110,7 @@ $(document).on('click', '.historyItem', function () {
             forecastSec.empty();
             ///////////////////////////////////////////////////////////////////////////////////Add New Today Data From API (History)
             todaySec.append(`
-<div class="card p-4 w-100" id="todaysWeather">
+<div class="card p-4 w-75" id="todaysWeather">
 <h2 class="cityName">${histSrchData.name} 
     <img class="icon" src= ${wIcon + histSrchData.weather[0].icon + '.png'}></img>
     ${histCurrentTime}
