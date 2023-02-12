@@ -62,7 +62,7 @@ searchBtn.click(function (event) {
                 forecastSec.empty();
                 ///////////////////////////////////////////////////////////////////////////////Append New Data
                 todaySec.append(`
-                <div class="card p-4 w-75" id="todaysWeather">
+                <div class="card p-4 w-100" id="todaysWeather">
                     <h2 class="cityName">${data.name} 
                         <img class="icon" src= ${wIcon + data.weather[0].icon + '.png'}></img>
                         ${currentTime}
@@ -110,7 +110,7 @@ $(document).on('click', '.historyItem', function () {
             forecastSec.empty();
             ///////////////////////////////////////////////////////////////////////////////////Add New Today Data From API (History)
             todaySec.append(`
-<div class="card p-4 w-75" id="todaysWeather">
+<div class="card p-4 w-100" id="todaysWeather">
 <h2 class="cityName">${histSrchData.name} 
     <img class="icon" src= ${wIcon + histSrchData.weather[0].icon + '.png'}></img>
     ${histCurrentTime}

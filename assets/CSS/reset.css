@@ -40,6 +40,6 @@ aside {
     flex-direction: column;
 }
 #results {
-    height: 100vb;
+    height: 100vh;
     overflow-y: scroll;
 }
