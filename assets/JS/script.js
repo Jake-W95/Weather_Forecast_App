@@ -34,7 +34,7 @@ searchBtn.click(function (event) {
         alert('please type a city name');
     } else {
 
-        $.get(`https://api.openweathermap.org/data/2.5/weather?q=${searchText}&appid=${APIkey}&units=metric`)
+        $.get(`https://api.openweathermap.org/data/2.5/weather?q=${searchText},UK&appid=${APIkey}&units=metric`)
             .catch(function () {
                 alert('city not found, please check spelling')
             })
@@ -100,7 +100,7 @@ searchBtn.click(function (event) {
 
 $(document).on('click', '.historyItem', function () {
     var historyCityName = $(this)[0].innerHTML   ///////////////////////////////////////Button's text (cityName)
-    $.get(`https://api.openweathermap.org/data/2.5/weather?q=${historyCityName}&appid=${APIkey}&units=metric`)
+    $.get(`https://api.openweathermap.org/data/2.5/weather?q=${historyCityName},UK&appid=${APIkey}&units=metric`)
         .then(function (histSrchData) {
             ////////////////////////////////////////////////////////////////////////////////////Clear Previously Displayed Data
             var histCurrentTime = moment.unix(histSrchData.dt + histSrchData.timezone).format('hh:mm a');
