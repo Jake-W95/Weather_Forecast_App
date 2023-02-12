@@ -34,7 +34,7 @@ searchBtn.click(function (event) {
         alert('please type a city name');
     } else {
 
-        $.get(`https://api.openweathermap.org/data/2.5/weather?q=${searchText}&appid=${APIkey}&units=metric`)
+        $.get(`https://api.openweathermap.org/data/2.5/weather?q=${searchText},UK&appid=${APIkey}&units=metric`)
             .catch(function () {
                 alert('city not found, please check spelling')
             })
